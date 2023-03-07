@@ -65,13 +65,19 @@ function bgModifiers() {
 			ul.classList.remove('ulcar');
 			pendingTasks.classList.add('comptaskp');
 			pendingTasks.classList.remove('comptaskhide');
+			clearAll.classList.add('clearall');
+			clearAll.classList.remove('clearallnotasks');
 		} else if ( ulIdChildL() == 0 ) { 
 			ul.classList.toggle('ulcar');
 			pendingTasks.classList.add('comptaskhide');
 			pendingTasks.classList.remove('comptaskp');
+			clearAll.classList.remove('clearAll');
+			clearAll.classList.add('clearallnotasks');
 		}
 	}
 }
+
+bgModifiers();
 
 //Add Items to list function
 function iCreateElement() {
