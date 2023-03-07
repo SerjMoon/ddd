@@ -207,6 +207,13 @@ input:active, input:focus {
 }
 
 /* Delete-All Button classes */
+
+.clearall:disabled {
+  user-select: none;
+  pointer-events: none;
+  opacity: 50%;
+}
+
 .clearall {
   margin-top: 16px;
   width: 256px;
@@ -219,12 +226,12 @@ input:active, input:focus {
   width: 256px;
   display: flex;
   justify-content: center;
-  opacity: 50%;
+  opacity: 60%;
 }
 
-.clearall:hover {
+/* .clearall:hover {
   opacity: 100%;
-}
+} */
 
 /* PendingTask classes */
 .completedtasks {

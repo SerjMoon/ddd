@@ -61,23 +61,44 @@ function ulListReturn() {
 //Spacing Modifiers based on the numbers of elements
 function bgModifiers() {
 	for (i=0; i <= ulIdChildL(); i++) {
-		if ( ulIdChildL() > 0) {
+		if ( ulIdChildL() > 0 ) {
 			ul.classList.remove('ulcar');
 			pendingTasks.classList.add('comptaskp');
 			pendingTasks.classList.remove('comptaskhide');
-			clearAll.classList.add('clearall');
 			clearAll.classList.remove('clearallnotasks');
+			clearAll.classList.add('clearall');
+			clearAll.classList.remove('clearall:remove');
+			document.getElementById("clearall").disabled = false;
 		} else if ( ulIdChildL() == 0 ) { 
 			ul.classList.toggle('ulcar');
 			pendingTasks.classList.add('comptaskhide');
 			pendingTasks.classList.remove('comptaskp');
-			clearAll.classList.remove('clearAll');
+			clearAll.classList.remove('clearall');
 			clearAll.classList.add('clearallnotasks');
+			clearAll.classList.add('clearall:disabled');
+			document.getElementById("clearall").disabled = true;
 		}
 	}
 }
 
-bgModifiers();
+//Check/Ucheck - Disabled ClearAll
+	// function ClearAllDisabledUl() {
+	// 	for (i=0; i <= ulListL(); i++) {
+	// 		if ( ulListL() > 0 ) {
+	// 			clearAll.classList.remove('clearall:disabled');
+	// 			document.getElementById("clearall").disabled = false;
+	// 			return comptasks2();
+	// 		}
+	// 		else if ( ulListL() == 0 ) {
+	// 			clearAll.classList.add('clearall:disabled');
+	// 			document.getElementById("clearall").disabled = true;
+	// 			return comptasks2();
+	// 		}
+	// 	}
+	// }
+
+// ClearAllDisabledUl();
+// bgModifiers();
 
 //Add Items to list function
 function iCreateElement() {
@@ -106,11 +127,13 @@ function iCreateElement() {
 				ulChecked.push(ulList[i].innerHTML);
 				ulList.pop();
 				li.classList.toggle('done');
+				// ClearAllDisabledUl();
 				return comptasks2();
 			} else {
 				ulChecked.pop();
 				ulListReturn();
 				li.classList.toggle('done');
+				// ClearAllDisabledUl();
 				return comptasks2();
 			}
 		}
@@ -125,12 +148,14 @@ function iCreateElement() {
 				todoDivWrapper.remove();	
 				comptasks2();
 				bgModifiers();
+				// ClearAllDisabledUl();
 			} else {
 				todoDivWrapper.remove();
 				ulList.length = ulList.length - 1;
 				comptasks2();
 				bgModifiers();
-				uChecked.length = 0;
+				// ClearAllDisabledUl();
+				ulChecked.length = 0;
 			}
 		}
 	})
@@ -156,6 +181,7 @@ function iCreateElement() {
 	ulListReturn();
 	comptasks2();
 	bgModifiers();
+// ClearAllDisabledUl();
 }
 
 //Input functions
@@ -179,14 +205,13 @@ clearAll.addEventListener('click', function() {
 			ulList.length = 0;
 			comptasks2();
 			bgModifiers();
+			// ClearAllDisabledUl();
 	}
 });
 
 //Event Functions
-clearAll.addEventListener('mouseover', function() {
-	clearAll.classList.toggle('clearall:hover');
-});
 button.classList.toggle('imgb');
+clearAll.addEventListener('mouseover', bgModifiers());
 button.addEventListener('mouseover', function() {
 	button.classList.toggle('imgb:hover');
 });
