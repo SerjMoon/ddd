@@ -1,82 +1,79 @@
-var button = document.getElementById("enter");
-var input = document.getElementById("userinput");
-var ul = document.querySelector("ul");
-var ulf = ul.children;
-const li = document.querySelector('li');
-const lis = document.querySelectorAll('li');
-const lisi = document.getElementsByTagName('li');
+// <ul> related Variables
+let ul = document.querySelector("ul");
+const ulId = document.getElementById('firstul');
+const ulIdChild = ulId.children;
+let ul_nested = document.getElementsByClassName('tododivwrapper');
+let submasterDivWrapper = document.getElementById("submasterdiv");
+// <li> related Variables
+let lis = document.querySelectorAll('li');
+// Other Variables
 const c = console.log.bind(document);
-var submasterDivWrapper = document.getElementById("submasterdiv");
 const clearAll = document.getElementById('clearall');
+const pendingTasks = document.getElementById('comptaskp');
+const button = document.getElementById("enter");
+const input = document.getElementById("userinput");
+let ulChecked = new Array();
+let ulList = new Array();
 
-function ievent(event) {
+//Tag Selector
+function tagSelector(event) {
 	let text =  event.target.nodeName;
 	document.getElementById('demo').innerHTML = "The last TAGNAME you clicked on was:" + " " + text;
+}
+
+//Length Functions
+function clearAllf() {
+	return ul_nested.length;
 }
 
 function inputLength() {
 	return input.value.length;
 }
 
-function lisiLen() {
-	return lisi.length;
-	}
-
-function ulipL() {
-	return ulip.length;
+function ulListL() {
+	return ulList.length;
 }
 
-function ulfL() {
-	return ulf.length;
+function ulIdChildL() {
+	return ulIdChild.length;
 }
 
 function lisL() {
 	return lis.length;
 }
 
-function comptasks() {
-	for ( i = 0; i <= lisiLen(); i++) {
-		if ( lisiLen() === 0 || lisiLen() > 0 ) {
-			return document.getElementById('comptaskp').innerHTML = 'You have ' + lisiLen() + ' pending tasks';
+//Pending Task Number
+function comptasks2() {
+	for ( i = 0; i <= ulListL(); i++) {
+		if ( ulListL() === 0 || ulListL() > 0 ) {
+			return document.getElementById('comptaskp').innerHTML = 'You have ' + ulListL() + ' pending tasks';
 		} 
 	}
 }
 
-function comptasks4() {
-	for ( i = 0; i <= ulipL(); i++) {
-		if ( ulipL() === 0 || ulipL() > 0 ) {
-			return document.getElementById('comptaskp').innerHTML = 'You have ' + ulipL() + ' pending tasks';
-		} 
+//ulListReturn elements to array
+function ulListReturn() {
+	for ( let i = 0; i <= ulIdChildL(); i++) {
+		return ulList.push(ulIdChild[i]);
 	}
 }
 
-const uli = document.getElementById('firstul');
-const ulis = uli.children;
-var ulia = new Array();
-var ulip = new Array();
-
-function dilip() {
-	for ( let i = 0; i <= ulfL(); i++) {
-		return ulip.push(ulf[i]);
+//Spacing Modifiers based on the numbers of elements
+function bgModifiers() {
+	for (i=0; i <= ulIdChildL(); i++) {
+		if ( ulIdChildL() > 0) {
+			ul.classList.remove('ulcar');
+			pendingTasks.classList.add('comptaskp');
+			pendingTasks.classList.remove('comptaskhide');
+		} else if ( ulIdChildL() == 0 ) { 
+			ul.classList.toggle('ulcar');
+			pendingTasks.classList.add('comptaskhide');
+			pendingTasks.classList.remove('comptaskp');
+		}
 	}
 }
 
-function ulfi() {
-	if ( ulfL() == 0 ) {
-		ul.classList.add('ulcar');
-	} else if ( ul.children.length > 0 ) {
-		ul.classList.remove('ulcar');
-	  }
-  	}
-
-ulfi();
-
-function resUlfi() {
-	return ulfi();
-}
-
-comptasks4();
-
+//Add Items to list function
 function iCreateElement() {
 	let li = document.createElement('li');
 	const todoDivWrapper = document.createElement('div');
@@ -91,57 +88,44 @@ function iCreateElement() {
 	imgdb.setAttributeNode(att);
 	imgdb.addEventListener('mouseover', function() {
 		imgdb.classList.toggle('imgdb:hover');
-		// c('merge imgdb.addfunction');
 	});
 
 	const check = document.createElement('input');
 	check.type = "checkbox";
-	check.name = "CB_Test";
-	check.setAttribute("name", "CBTest2");
-	// check.value = 2;
-	check.checked.value = 333;
 
+	//Check/Uncheck
 	function checkfunct() {	
-		for ( let i = 0; i <= ulfL(); i++) {
+		for ( let i = 0; i <= ulIdChildL(); i++) {
 			if (check.checked) {
-				c('executed');
-				ulia.push(ulip[i].innerHTML);
-				ulip.pop();
+				ulChecked.push(ulList[i].innerHTML);
+				ulList.pop();
 				li.classList.toggle('done');
-				c(ulia);
-				c(ulia.length);
-				return comptasks4();
+				return comptasks2();
 			} else {
-				c('executedd');
-				ulia.pop();
-				dilip();
+				ulChecked.pop();
+				ulListReturn();
 				li.classList.toggle('done');
-				return comptasks4();
-				// c(false);
+				return comptasks2();
 			}
 		}
 	};
 
 	check.addEventListener('click', checkfunct);
 
+	//Delete Button of the Item
 	delButtonWrapper.addEventListener('click', function() {
 		for ( let i = 0; i <= lisL(); i++) {
 			if (check.checked) {
 				todoDivWrapper.remove();	
-				comptasks4();
-				c(comptasks4());
-				c(ulia.length);
-				c(ulia);
-				ulfi();
+				comptasks2();
+				bgModifiers();
 			} else {
 				todoDivWrapper.remove();
-				ulip.length = ulip.length - 1;
-				comptasks4();
-				ulia.length = 0;
-				c(ulia.length);
-				c(ulia);
+				ulList.length = ulList.length - 1;
+				comptasks2();
+				bgModifiers();
+				uChecked.length = 0;
 			}
-		ulfi();
 		}
 	})
 
@@ -163,11 +147,12 @@ function iCreateElement() {
 	todoDivWrapper.appendChild(divWrapper);
 	ul.appendChild(todoDivWrapper);
 	input.value = '';
-	dilip();
-	comptasks4();
-	resUlfi();
+	ulListReturn();
+	comptasks2();
+	bgModifiers();
 }
 
+//Input functions
 function addTaskByClick() {
 	if (inputLength() > 0) {
 		iCreateElement();
@@ -180,31 +165,26 @@ function addTaskByPress(event) {
 	}
 }
 
-let clearAlli = document.getElementById('firstul');
-let clearAll_nested = document.getElementsByClassName('tododivwrapper');
-
-function cANL() {
-	return clearAll_nested.length;
-}
-
+//Delete-All Items function
 clearAll.addEventListener('click', function() {
-	for ( let i = 0; i < cANL(); ) {
-			let clearAllNode = clearAlli.removeChild(clearAll_nested[i]);
-			ulia.length = 0;
-			ulip.length = 0;
-			comptasks4();
-			// c('log merge log at least i guess');
+	for ( let i = 0; i < clearAllf(); ) {
+			let clearAllElements = ulId.removeChild(ul_nested[i]);
+			ulChecked.length = 0;
+			ulList.length = 0;
+			comptasks2();
+			bgModifiers();
 	}
 });
 
+//Event Functions
 clearAll.addEventListener('mouseover', function() {
 	clearAll.classList.toggle('clearall:hover');
-		c('merge clearAll.addfunction');
-	});
-
+});
 button.classList.toggle('imgb');
 button.addEventListener('mouseover', function() {
 	button.classList.toggle('imgb:hover');
 });
 button.addEventListener('click', addTaskByClick);
 input.addEventListener('keypress', addTaskByPress);
+
+comptasks2();
