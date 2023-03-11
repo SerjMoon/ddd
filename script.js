@@ -1,67 +1,74 @@
 // <ul> related Variables
 let ul = document.querySelector("ul");
-const ulId = document.getElementById('firstul');
-const ulIdChild = ulId.children;
-let ul_nested = document.getElementsByClassName('tododivwrapper');
+const ul_GetId = document.getElementById('firstul');
+const ul_GetId_Children = ul_GetId.children;
+let ul_Get_ToDoDivWrapper = document.getElementsByClassName('tododivwrapper');
 let submasterDivWrapper = document.getElementById("submasterdiv");
-// <li> related Variables
-let lis = document.querySelectorAll('li');
+
 // Other Variables
+let lis = document.querySelectorAll('li');
 const c = console.log.bind(document);
 const clearAll = document.getElementById('clearall');
 const pendingTasks = document.getElementById('comptaskp');
 const button = document.getElementById("enter");
 const input = document.getElementById("userinput");
-let ulChecked = new Array();
-let ulList = new Array();
 
-//Tag Selector
+//Array Lists to push/pop Checked/Unchecked elements between
+let ul_Checked_List = new Array();
+let ul_Unchecked_List = new Array();
+
+
+//Tag Selector(Unecessary optional addition)
 function tagSelector(event) {
 	let text =  event.target.nodeName;
-	document.getElementById('demo').innerHTML = "The last TAGNAME you clicked on was:" + " " + text;
+	document.getElementById('demo').textContent = "The last TAGNAME you clicked on was:" + " " + text;
 }
 
-//Length Functions
-function clearAllf() {
-	return ul_nested.length;
+//Return Length Functions
+function ul_Get_ToDoDivWrapper_L() {
+	return ul_Get_ToDoDivWrapper.length;
 }
 
-function inputLength() {
+function input_Length() {
 	return input.value.length;
 }
 
-function ulListL() {
-	return ulList.length;
+function ul_Checked_List_L() {
+	return ul_Checked_List.length;
 }
 
-function ulIdChildL() {
-	return ulIdChild.length;
+function ul_Unchecked_List_L() {
+	return ul_Unchecked_List.length;
 }
 
-function lisL() {
+function ul_GetId_Children_L() {
+	return ul_GetId_Children.length;
+}
+
+function lis_L() {
 	return lis.length;
 }
 
-//Pending Task Number
+//Pending Task - Text Display
 function comptasks2() {
-	for ( i = 0; i <= ulListL(); i++) {
-		if ( ulListL() === 0 || ulListL() > 0 ) {
-			return document.getElementById('comptaskp').innerHTML = 'You have ' + ulListL() + ' pending tasks';
+	for ( i = 0; i <= ul_Unchecked_List_L(); i++) {
+		if ( ul_Unchecked_List_L() === 0 || ul_Unchecked_List_L() > 0 ) {
+			return document.getElementById('comptaskp').textContent = 'You have ' + ul_Unchecked_List_L() + ' pending tasks';
 		} 
 	}
 }
 
-//ulListReturn elements to array
-function ulListReturn() {
-	for ( let i = 0; i <= ulIdChildL(); i++) {
-		return ulList.push(ulIdChild[i]);
+//Return elements from ul_GetId_Children back to ul_Unchecked_List
+function ul_Unchecked_List_Return() {
+	for ( let i = 0; i <= ul_GetId_Children_L(); i++) {
+		return ul_Unchecked_List.push(ul_GetId_Children[i]);
 	}
 }
 
-//Spacing Modifiers based on the numbers of elements
+//White-Space Modifiers based on the numbers of current elements
 function bgModifiers() {
-	for (i=0; i <= ulIdChildL(); i++) {
-		if ( ulIdChildL() > 0 ) {
+	for (i=0; i <= ul_GetId_Children_L(); i++) {
+		if ( ul_GetId_Children_L() > 0 ) {
 			ul.classList.remove('ulcar');
 			pendingTasks.classList.add('comptaskp');
 			pendingTasks.classList.remove('comptaskhide');
@@ -69,7 +76,7 @@ function bgModifiers() {
 			clearAll.classList.add('clearall');
 			clearAll.classList.remove('clearall:remove');
 			document.getElementById("clearall").disabled = false;
-		} else if ( ulIdChildL() == 0 ) { 
+		} else if ( ul_GetId_Children_L() == 0 ) { 
 			ul.classList.toggle('ulcar');
 			pendingTasks.classList.add('comptaskhide');
 			pendingTasks.classList.remove('comptaskp');
@@ -81,27 +88,9 @@ function bgModifiers() {
 	}
 }
 
-//Check/Ucheck - Disabled ClearAll
-	// function ClearAllDisabledUl() {
-	// 	for (i=0; i <= ulListL(); i++) {
-	// 		if ( ulListL() > 0 ) {
-	// 			clearAll.classList.remove('clearall:disabled');
-	// 			document.getElementById("clearall").disabled = false;
-	// 			return comptasks2();
-	// 		}
-	// 		else if ( ulListL() == 0 ) {
-	// 			clearAll.classList.add('clearall:disabled');
-	// 			document.getElementById("clearall").disabled = true;
-	// 			return comptasks2();
-	// 		}
-	// 	}
-	// }
-
-// ClearAllDisabledUl();
-// bgModifiers();
-
-//Add Items to list function
+//Add ToDo Items Function
 function iCreateElement() {
+	//Item Creation Function
 	let li = document.createElement('li');
 	const todoDivWrapper = document.createElement('div');
 	const divWrapper = document.createElement('div');
@@ -109,6 +98,7 @@ function iCreateElement() {
 	const delButton = document.createElement('button');
 	const delButtonWrapper = document.createElement('div');
 
+	//Delete Button Icon
 	const imgdb = document.createElement('img');
 	const att = document.createAttribute('src');
 	att.value = "./foldero/delete-bin.svg"
@@ -117,23 +107,22 @@ function iCreateElement() {
 		imgdb.classList.toggle('imgdb:hover');
 	});
 
+	//Check Button
 	const check = document.createElement('input');
 	check.type = "checkbox";
 
-	//Check/Uncheck
+	//Checked/Unchecked Items
 	function checkfunct() {	
-		for ( let i = 0; i <= ulIdChildL(); i++) {
+		for ( let i = 0; i <= ul_GetId_Children_L(); i++) {
 			if (check.checked) {
-				ulChecked.push(ulList[i].innerHTML);
-				ulList.pop();
+				ul_Checked_List.push(ul_Unchecked_List[i]);
+				ul_Unchecked_List.pop();
 				li.classList.toggle('done');
-				// ClearAllDisabledUl();
 				return comptasks2();
 			} else {
-				ulChecked.pop();
-				ulListReturn();
+				ul_Checked_List.pop();
+				ul_Unchecked_List_Return();
 				li.classList.toggle('done');
-				// ClearAllDisabledUl();
 				return comptasks2();
 			}
 		}
@@ -141,25 +130,24 @@ function iCreateElement() {
 
 	check.addEventListener('click', checkfunct);
 
-	//Delete Button of the Item
+	//Delete Button Function (for Checked/Unchecked Items)
 	delButtonWrapper.addEventListener('click', function() {
-		for ( let i = 0; i <= lisL(); i++) {
+		for ( let i = 0; i <= lis_L(); i++) {
 			if (check.checked) {
-				todoDivWrapper.remove();	
+				todoDivWrapper.remove();
+				ul_Checked_List.pop();	
 				comptasks2();
 				bgModifiers();
-				// ClearAllDisabledUl();
 			} else {
 				todoDivWrapper.remove();
-				ulList.length = ulList.length - 1;
+				ul_Unchecked_List.pop();
 				comptasks2();
 				bgModifiers();
-				// ClearAllDisabledUl();
-				ulChecked.length = 0;
 			}
 		}
 	})
 
+	//Class Listing
 	divWrapper.classList.add('divwrapper');
 	imgdb.classList.add('imgdb');
 	liWrapper.classList.add('liwrapper');
@@ -168,6 +156,7 @@ function iCreateElement() {
 	todoDivWrapper.classList.add('tododivwrapper');
 	check.classList.add('check');
 
+	//Appending Children
 	li.appendChild(document.createTextNode(input.value));
 	delButton.appendChild((imgdb));
 	liWrapper.appendChild(check);
@@ -178,44 +167,47 @@ function iCreateElement() {
 	todoDivWrapper.appendChild(divWrapper);
 	ul.appendChild(todoDivWrapper);
 	input.value = '';
-	ulListReturn();
+	ul_Unchecked_List_Return();
 	comptasks2();
 	bgModifiers();
-// ClearAllDisabledUl();
 }
 
-//Input functions
+//Press Input Button by Click
 function addTaskByClick() {
-	if (inputLength() > 0) {
+	if (input_Length() > 0) {
 		iCreateElement();
 	}
 }
 
+//Press Input Button by Enter
 function addTaskByPress(event) {
-	if (inputLength() > 0 && event.keyCode === 13) {
+	if (input_Length() > 0 && event.keyCode === 13) {
 		iCreateElement();
 	}
 }
 
 //Delete-All Items function
 clearAll.addEventListener('click', function() {
-	for ( let i = 0; i < clearAllf(); ) {
-			let clearAllElements = ulId.removeChild(ul_nested[i]);
-			ulChecked.length = 0;
-			ulList.length = 0;
+	for ( let i = 0; i < ul_Get_ToDoDivWrapper_L(); ) {
+			let clearAllElements = ul_GetId.removeChild(ul_Get_ToDoDivWrapper[i]);
+			ul_Checked_List.length = 0;
+			ul_Unchecked_List.length = 0;
 			comptasks2();
 			bgModifiers();
-			// ClearAllDisabledUl();
 	}
 });
 
 //Event Functions
 button.classList.toggle('imgb');
+
 clearAll.addEventListener('mouseover', bgModifiers());
+
 button.addEventListener('mouseover', function() {
 	button.classList.toggle('imgb:hover');
 });
+
 button.addEventListener('click', addTaskByClick);
+
 input.addEventListener('keypress', addTaskByPress);
 
 comptasks2();
